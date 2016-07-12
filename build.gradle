@@ -34,9 +34,8 @@ dependencies {
     // spock
     compile 'org.codehaus.groovy:groovy-all:2.4.1'
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
-    testRuntime 'cglib:cglib-nodep:3.1'       // allows mocking of classes (in addition to interfaces)
+    testRuntime 'cglib:cglib-nodep:3.1'
     testRuntime 'org.objenesis:objenesis:2.1'
-    // allows mocking of classes without default constructor (together with CGLIB)
 }
 
 
@@ -45,4 +44,8 @@ eclipse {
         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
     }
+}
+
+task stage {
+    dependsOn build
 }
