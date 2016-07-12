@@ -9,6 +9,6 @@ class HomeControllerSpec extends Specification {
         println("Test running again!")
 
         expect:
-        false
+        true
     }
 }
