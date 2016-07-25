@@ -11,12 +11,13 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
@@ -28,14 +29,18 @@ public class PostReader {
 
     public List<PostSummary> summarize() {
         try {
-            return Files.list(Paths.get(postsLocation))
-                    .map(Path::toFile)
-                    .filter(f -> f.getName().endsWith(".md"))
+            URL postsUrl = PostReader.class.getClassLoader().getResource(postsLocation);
+            if (postsUrl == null) {
+                return emptyList();
+            }
+            File postsDirectory = new File(postsUrl.toURI());
+            return Arrays.stream(postsDirectory
+                    .listFiles((dir, name) -> name.endsWith(".md")))
                     .map(this::parseFile)
                     .map(this::toMetadata)
                     .map(this::toSummary)
                     .collect(toList());
-        } catch (IOException e) {
+        } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }
@@ -63,7 +68,13 @@ public class PostReader {
     }
 
     public Post readPost(String path) {
-        Node document = parseFile(new File(postsLocation + path + ".md"));
+        URL postUrl = PostReader.class.getClassLoader().getResource(postsLocation + path + ".md");
+        Node document;
+        try {
+            document = parseFile(new File(postUrl.toURI()));
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
         Map<String, List<String>> metadata = toMetadata(document);
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return new Post(
