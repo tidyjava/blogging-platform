@@ -14,13 +14,13 @@ import java.util.Map;
 
 import static java.util.Collections.singletonList;
 
-public class MarkdownPostParser {
-    public static final String EXTENSION = ".md";
+class MarkdownPostParser {
+    static final String EXTENSION = ".md";
 
     private Node node;
     private Map<String, List<String>> metadata;
 
-    public MarkdownPostParser(File file) {
+    MarkdownPostParser(File file) {
         try {
             this.node = parseNode(file);
             this.metadata = parseMetadata(node);
@@ -40,15 +40,15 @@ public class MarkdownPostParser {
         return visitor.getData();
     }
 
-    public String getTitle() {
+    String getTitle() {
         return metadata.get("title").get(0);
     }
 
-    public String getSummary() {
+    String getSummary() {
         return metadata.get("summary").get(0);
     }
 
-    public String getContent() {
+    String getContent() {
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(node);
     }

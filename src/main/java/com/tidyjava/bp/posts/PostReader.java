@@ -13,12 +13,12 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 @Service
-public class PostReader {
+class PostReader {
 
     @Value("${posts.location}")
     private String postsLocation;
 
-    public List<Post> summarize() {
+    List<Post> summarize() {
         URL postsUrl = PostReader.class.getClassLoader().getResource(postsLocation);
         if (postsUrl == null) {
             return emptyList();
@@ -30,7 +30,7 @@ public class PostReader {
                 .collect(toList());
     }
 
-    public Post readPost(String path) {
+    Post readPost(String path) {
         URL postUrl = PostReader.class.getClassLoader().getResource(postsLocation + path + MarkdownPostParser.EXTENSION);
         if (postUrl == null) {
             throw new MissingPost();
@@ -51,6 +51,6 @@ public class PostReader {
         return new Post(parser.getTitle(), parser.getSummary(), "/" + file.getName().replace(MarkdownPostParser.EXTENSION, ""), parser.getContent());
     }
 
-    public static class MissingPost extends RuntimeException {
+    static class MissingPost extends RuntimeException {
     }
 }
