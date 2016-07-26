@@ -1,4 +1,4 @@
-package com.tidyjava.bp.posts;
+package com.tidyjava.bp;
 
 public class Post {
     private String title;

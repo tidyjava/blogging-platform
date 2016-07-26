@@ -1,4 +1,4 @@
-package com.tidyjava.bp.posts;
+package com.tidyjava.bp;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,5 @@
-package com.tidyjava.bp.posts
+package com.tidyjava.bp
 
-import com.tidyjava.bp.BloggingPlatform
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.test.context.web.WebAppConfiguration

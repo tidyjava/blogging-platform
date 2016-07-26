@@ -1,4 +1,4 @@
-package com.tidyjava.bp.posts;
+package com.tidyjava.bp;
 
 import org.commonmark.ext.front.matter.YamlFrontMatterExtension;
 import org.commonmark.ext.front.matter.YamlFrontMatterVisitor;
