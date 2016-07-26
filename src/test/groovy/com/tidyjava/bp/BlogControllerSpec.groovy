@@ -7,9 +7,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 import spock.lang.Specification
 
-import static org.hamcrest.Matchers.containsString
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringApplicationConfiguration(Application.class)
@@ -29,24 +28,25 @@ class BlogControllerSpec extends Specification {
         expect:
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Post 1")))
-                .andExpect(content().string(containsString("Summary 1")))
-                .andExpect(content().string(containsString("/post1")))
-                .andExpect(content().string(containsString("Post 2")))
-                .andExpect(content().string(containsString("Summary 2")))
-                .andExpect(content().string(containsString("/post2")))
+                .andExpect(model().attribute("posts", [testSummary(1), testSummary(2)]))
     }
 
-    def "post"(postNumber) {
+    def testSummary(int n) {
+        new PostSummary("Post $n", "Summary $n", "/post$n")
+    }
+
+    def "post"(n) {
         expect:
-        mockMvc.perform(get("/post" + postNumber))
+        mockMvc.perform(get("/post$n"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Post " + postNumber)))
-                .andExpect(content().string(containsString("Summary " + postNumber)))
-                .andExpect(content().string(containsString("<strong>Content " + postNumber + "</strong>")))
+                .andExpect(model().attribute("post", testPost(n)))
 
         where:
-        postNumber << [1, 2]
+        n << [1, 2]
+    }
+
+    def testPost(n) {
+        new Post("Post $n", "Summary $n", "<p><strong>Content $n</strong></p>\n")
     }
 
     // TODO error cases
