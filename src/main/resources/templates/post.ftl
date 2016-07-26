@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>TODO blog name - ${post.title}</title>
+    <title>${blogName} - ${post.title}</title>
 </head>
 
 <body>

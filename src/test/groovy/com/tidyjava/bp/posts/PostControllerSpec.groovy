@@ -1,5 +1,6 @@
-package com.tidyjava.bp
+package com.tidyjava.bp.posts
 
+import com.tidyjava.bp.BloggingPlatform
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.test.context.web.WebAppConfiguration
@@ -8,12 +9,11 @@ import org.springframework.web.context.WebApplicationContext
 import spock.lang.Specification
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-@SpringApplicationConfiguration(Application.class)
+@SpringApplicationConfiguration(BloggingPlatform.class)
 @WebAppConfiguration
-class BlogControllerSpec extends Specification {
+class PostControllerSpec extends Specification {
 
     @Autowired
     def WebApplicationContext wac
@@ -28,11 +28,7 @@ class BlogControllerSpec extends Specification {
         expect:
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("posts", [testSummary(1), testSummary(2)]))
-    }
-
-    def testSummary(int n) {
-        new PostSummary("Post $n", "Summary $n", "/post$n")
+                .andExpect(model().attribute("posts", [testPost(1), testPost(2)]))
     }
 
     def "post"(n) {
@@ -45,9 +41,17 @@ class BlogControllerSpec extends Specification {
         n << [1, 2]
     }
 
-    def testPost(n) {
-        new Post("Post $n", "Summary $n", "<p><strong>Content $n</strong></p>\n")
+    def "missing post"(n) {
+        expect:
+        mockMvc.perform(get("/surely-not-existent"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("not-found"))
+
+        where:
+        n << [1, 2]
     }
 
-    // TODO error cases
+    def testPost(n) {
+        new Post("Post $n", "Summary $n", "/post$n", "<p><strong>Content $n</strong></p>\n")
+    }
 }

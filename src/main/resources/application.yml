@@ -1,2 +1,5 @@
+blog:
+  name: Put Your Blog Name Here
+
 posts:
   location: posts/
