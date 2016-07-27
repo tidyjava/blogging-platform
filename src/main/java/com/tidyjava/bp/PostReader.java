@@ -7,35 +7,37 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 @Service
-class PostReader {
+public class PostReader {
 
     @Value("${posts.location}")
     private String postsLocation;
 
-    List<Post> summarize() {
+    public List<MarkdownPost> readAll() {
         URL postsUrl = PostReader.class.getClassLoader().getResource(postsLocation);
         if (postsUrl == null) {
             return emptyList();
         }
         File postsDirectory = toFile(postsUrl);
         return Arrays.stream(postsDirectory
-                .listFiles((dir, name) -> name.endsWith(MarkdownPostParser.EXTENSION)))
-                .map(this::toPost)
+                .listFiles((dir, name) -> name.endsWith(MarkdownPost.EXTENSION)))
+                .map(MarkdownPost::new)
+                .sorted(Comparator.comparing(MarkdownPost::getDate).reversed())
                 .collect(toList());
     }
 
-    Post readPost(String path) {
-        URL postUrl = PostReader.class.getClassLoader().getResource(postsLocation + path + MarkdownPostParser.EXTENSION);
+    public MarkdownPost readOne(String path) {
+        URL postUrl = PostReader.class.getClassLoader().getResource(postsLocation + path + MarkdownPost.EXTENSION);
         if (postUrl == null) {
             throw new MissingPost();
         }
-        return toPost(toFile(postUrl));
+        return new MarkdownPost(toFile(postUrl));
     }
 
     private File toFile(URL url) {
@@ -46,11 +48,6 @@ class PostReader {
         }
     }
 
-    private Post toPost(File file) {
-        MarkdownPostParser parser = new MarkdownPostParser(file);
-        return new Post(parser.getTitle(), parser.getSummary(), "/" + file.getName().replace(MarkdownPostParser.EXTENSION, ""), parser.getContent());
-    }
-
-    static class MissingPost extends RuntimeException {
+    public static class MissingPost extends RuntimeException {
     }
 }

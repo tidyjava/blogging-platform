@@ -23,13 +23,13 @@ public class PostController {
 
     @RequestMapping("/")
     public String home(Model model) {
-        model.addAttribute("posts", postReader.summarize());
+        model.addAttribute("posts", postReader.readAll());
         return "home";
     }
 
     @RequestMapping("/{path}")
     public String post(@PathVariable("path") String path, Model model) {
-        model.addAttribute("post", postReader.readPost(path));
+        model.addAttribute("post", postReader.readOne(path));
         return "post";
     }
 

@@ -11,6 +11,6 @@ class PostReaderSpec extends Specification {
         postReader.postsLocation = "non-existent-or-empty"
 
         expect:
-        postReader.summarize().isEmpty()
+        postReader.readAll().isEmpty()
     }
 }

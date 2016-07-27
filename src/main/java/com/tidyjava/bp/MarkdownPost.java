@@ -9,21 +9,25 @@ import org.commonmark.parser.Parser;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.singletonList;
 
-class MarkdownPostParser {
-    static final String EXTENSION = ".md";
+public class MarkdownPost {
+    public static final String EXTENSION = ".md";
 
     private Node node;
     private Map<String, List<String>> metadata;
+    private String url;
 
-    MarkdownPostParser(File file) {
+    public MarkdownPost(File file) {
         try {
             this.node = parseNode(file);
             this.metadata = parseMetadata(node);
+            this.url = "/" + file.getName().replace(EXTENSION, "");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -40,15 +44,23 @@ class MarkdownPostParser {
         return visitor.getData();
     }
 
-    String getTitle() {
+    public String getTitle() {
         return metadata.get("title").get(0);
     }
 
-    String getSummary() {
+    public String getSummary() {
         return metadata.get("summary").get(0);
     }
 
-    String getContent() {
+    public LocalDate getDate() {
+        return LocalDate.parse(metadata.get("date").get(0), DateTimeFormatter.ISO_LOCAL_DATE);
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getContent() {
         HtmlRenderer renderer = HtmlRenderer.builder().build();
         return renderer.render(node);
     }
