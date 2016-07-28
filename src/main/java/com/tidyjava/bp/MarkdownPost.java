@@ -19,26 +19,26 @@ import static java.util.Collections.singletonList;
 public class MarkdownPost {
     public static final String EXTENSION = ".md";
 
-    private Node node;
+    private Node parsedFile;
     private Map<String, List<String>> metadata;
     private String url;
 
     public MarkdownPost(File file) {
         try {
-            this.node = parseNode(file);
-            this.metadata = parseMetadata(node);
+            this.parsedFile = parse(file);
+            this.metadata = extractMetadata(parsedFile);
             this.url = "/" + file.getName().replace(EXTENSION, "");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private Node parseNode(File file) throws IOException {
+    private Node parse(File file) throws IOException {
         Parser parser = Parser.builder().extensions(singletonList(YamlFrontMatterExtension.create())).build();
         return parser.parseReader(new FileReader(file));
     }
 
-    private Map<String, List<String>> parseMetadata(Node document) {
+    private Map<String, List<String>> extractMetadata(Node document) {
         YamlFrontMatterVisitor visitor = new YamlFrontMatterVisitor();
         document.accept(visitor);
         return visitor.getData();
@@ -61,7 +61,6 @@ public class MarkdownPost {
     }
 
     public String getContent() {
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
-        return renderer.render(node);
+        return HtmlRenderer.builder().build().render(parsedFile);
     }
 }

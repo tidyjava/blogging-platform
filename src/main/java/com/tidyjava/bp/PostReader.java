@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
@@ -20,24 +21,35 @@ public class PostReader {
     private String postsLocation;
 
     public List<MarkdownPost> readAll() {
-        URL postsUrl = PostReader.class.getClassLoader().getResource(postsLocation);
-        if (postsUrl == null) {
+        URL postsDir = getResource(postsLocation);
+        if (notExists(postsDir)) {
             return emptyList();
         }
-        File postsDirectory = toFile(postsUrl);
-        return Arrays.stream(postsDirectory
-                .listFiles((dir, name) -> name.endsWith(MarkdownPost.EXTENSION)))
+        File postsDirFile = toFile(postsDir);
+        return Stream.of(postsDirFile.listFiles(withSupportedExtension()))
                 .map(MarkdownPost::new)
                 .sorted(Comparator.comparing(MarkdownPost::getDate).reversed())
                 .collect(toList());
     }
 
+    private FilenameFilter withSupportedExtension() {
+        return (dir, name) -> name.endsWith(MarkdownPost.EXTENSION);
+    }
+
     public MarkdownPost readOne(String path) {
-        URL postUrl = PostReader.class.getClassLoader().getResource(postsLocation + path + MarkdownPost.EXTENSION);
-        if (postUrl == null) {
+        URL post = getResource(postsLocation + path + MarkdownPost.EXTENSION);
+        if (notExists(post)) {
             throw new MissingPost();
         }
-        return new MarkdownPost(toFile(postUrl));
+        return new MarkdownPost(toFile(post));
+    }
+
+    private URL getResource(String postsLocation) {
+        return PostReader.class.getClassLoader().getResource(postsLocation);
+    }
+
+    private boolean notExists(URL resource) {
+        return resource == null;
     }
 
     private File toFile(URL url) {
