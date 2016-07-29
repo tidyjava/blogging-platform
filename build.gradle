@@ -31,9 +31,13 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-freemarker'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 
+    //markdown
+    compile 'com.atlassian.commonmark:commonmark:0.5.1'
+    compile 'com.atlassian.commonmark:commonmark-ext-yaml-front-matter:0.5.1'
+
     // spock
     compile 'org.codehaus.groovy:groovy-all:2.4.1'
-    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile 'org.spockframework:spock-spring:1.0-groovy-2.4'
     testRuntime 'cglib:cglib-nodep:3.1'
     testRuntime 'org.objenesis:objenesis:2.1'
 }
