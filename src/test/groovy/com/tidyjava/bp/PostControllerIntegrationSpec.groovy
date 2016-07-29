@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringApplicationConfiguration(BloggingPlatform.class)
 @WebAppConfiguration
-class PostControllerSpec extends Specification {
+class PostControllerIntegrationSpec extends Specification {
 
     @Autowired
     WebApplicationContext wac
