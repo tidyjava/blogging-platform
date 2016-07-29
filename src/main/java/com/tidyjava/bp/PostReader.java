@@ -21,12 +21,12 @@ public class PostReader {
     private String postsLocation;
 
     public List<MarkdownPost> readAll() {
-        URL postsDir = getResource(postsLocation);
-        if (notExists(postsDir)) {
+        URL postsRes = getResource(postsLocation);
+        if (notExists(postsRes)) {
             return emptyList();
         }
-        File postsDirFile = toFile(postsDir);
-        return Stream.of(postsDirFile.listFiles(withSupportedExtension()))
+        File postsDir = toFile(postsRes);
+        return Stream.of(postsDir.listFiles(withSupportedExtension()))
                 .map(MarkdownPost::new)
                 .sorted(Comparator.comparing(MarkdownPost::getDate).reversed())
                 .collect(toList());

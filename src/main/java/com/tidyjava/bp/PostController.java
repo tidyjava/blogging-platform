@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class PostController {
 
-    @Autowired
-    private PostReader postReader;
-
     @Value("${blog.name}")
     private String blogName;
+
+    @Autowired
+    private PostReader postReader;
 
     @ModelAttribute("blogName")
     public String getBlogName() {

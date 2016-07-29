@@ -30,6 +30,7 @@ class PostControllerSpec extends Specification {
         expect:
         def result = mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
+                .andExpect(view().name("home"))
                 .andReturn()
         def posts = result.modelAndView.model.posts
         assertTestPost(posts[0], 2)
@@ -40,6 +41,7 @@ class PostControllerSpec extends Specification {
         expect:
         def result = mockMvc.perform(get("/post$n"))
                 .andExpect(status().isOk())
+                .andExpect(view().name("post"))
                 .andReturn()
         assertTestPost(result.modelAndView.model.post, n)
 
@@ -47,14 +49,11 @@ class PostControllerSpec extends Specification {
         n << [1, 2]
     }
 
-    def "missing post"(n) {
+    def "missing post"() {
         expect:
         mockMvc.perform(get("/surely-not-existent"))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("not-found"))
-
-        where:
-        n << [1, 2]
     }
 
     void assertTestPost(post, n) {
