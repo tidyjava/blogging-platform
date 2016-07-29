@@ -5,10 +5,10 @@ import org.commonmark.ext.front.matter.YamlFrontMatterVisitor;
 import org.commonmark.html.HtmlRenderer;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
+import org.springframework.core.io.Resource;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -19,23 +19,23 @@ import static java.util.Collections.singletonList;
 public class MarkdownPost {
     public static final String EXTENSION = ".md";
 
-    private Node parsedFile;
+    private Node parsedResource;
     private Map<String, List<String>> metadata;
     private String url;
 
-    public MarkdownPost(File file) {
+    public MarkdownPost(Resource resource) {
         try {
-            this.parsedFile = parse(file);
-            this.metadata = extractMetadata(parsedFile);
-            this.url = "/" + file.getName().replace(EXTENSION, "");
+            this.parsedResource = parse(resource);
+            this.metadata = extractMetadata(parsedResource);
+            this.url = "/" + resource.getFilename().replace(EXTENSION, "");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private Node parse(File file) throws IOException {
+    private Node parse(Resource resource) throws IOException {
         Parser parser = Parser.builder().extensions(singletonList(YamlFrontMatterExtension.create())).build();
-        return parser.parseReader(new FileReader(file));
+        return parser.parseReader(new InputStreamReader(resource.getInputStream()));
     }
 
     private Map<String, List<String>> extractMetadata(Node document) {
@@ -61,6 +61,6 @@ public class MarkdownPost {
     }
 
     public String getContent() {
-        return HtmlRenderer.builder().build().render(parsedFile);
+        return HtmlRenderer.builder().build().render(parsedResource);
     }
 }
