@@ -35,7 +35,11 @@ public class MarkdownPostFactory {
 
     private static Node parse(File file) {
         Parser parser = Parser.builder().extensions(singletonList(YamlFrontMatterExtension.create())).build();
-        return rethrow(() -> parser.parseReader(new FileReader(file)));
+        return rethrow(() -> {
+            try (FileReader input = new FileReader(file)) {
+                return parser.parseReader(input);
+            }
+        });
     }
 
     private static Map<String, List<String>> extractMetadata(Node document) {
