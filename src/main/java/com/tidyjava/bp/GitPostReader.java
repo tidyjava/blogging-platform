@@ -2,6 +2,7 @@ package com.tidyjava.bp;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.Repository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -37,19 +38,25 @@ public class GitPostReader {
     }
 
     private void cloneTo(File contentsDir) {
-        git = rethrow(() -> Git.cloneRepository()
-                .setURI(repositoryUrl)
-                .setDirectory(contentsDir)
-                .call());
+        git = rethrow(() -> {
+            try (Git call = Git.cloneRepository()
+                    .setURI(repositoryUrl)
+                    .setDirectory(contentsDir)
+                    .call()) {
+                return call;
+            }
+        });
     }
 
     public List<Post> readAll() {
-        File contentsDir = git.getRepository().getWorkTree();
-        return Stream.of(contentsDir
-                .listFiles(withSupportedExtension()))
-                .map(MarkdownPostFactory::create)
-                .sorted(byDate().reversed())
-                .collect(Collectors.toList());
+        try (Repository repository = git.getRepository()) {
+            File contentsDir = repository.getWorkTree();
+            return Stream.of(contentsDir
+                    .listFiles(withSupportedExtension()))
+                    .map(MarkdownPostFactory::create)
+                    .sorted(byDate().reversed())
+                    .collect(Collectors.toList());
+        }
     }
 
     private FilenameFilter withSupportedExtension() {
@@ -69,7 +76,9 @@ public class GitPostReader {
     }
 
     private String toPostPath(String name) {
-        return git.getRepository().getWorkTree().getPath() + "/" + name + MarkdownPostFactory.EXTENSION;
+        try (Repository repository = git.getRepository()) {
+            return repository.getWorkTree().getPath() + "/" + name + MarkdownPostFactory.EXTENSION;
+        }
     }
 
     public void pullChanges() {
