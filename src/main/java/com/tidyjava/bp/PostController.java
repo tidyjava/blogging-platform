@@ -14,7 +14,7 @@ public class PostController {
     private String blogName;
 
     @Autowired
-    private PostReader postReader;
+    private GitPostReader postReader;
 
     @ModelAttribute("blogName")
     public String getBlogName() {
@@ -34,7 +34,7 @@ public class PostController {
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(PostReader.MissingPost.class)
+    @ExceptionHandler(MissingPostException.class)
     public String missingPost() {
         return "not-found";
     }

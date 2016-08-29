@@ -1,5 +1,3 @@
 blog:
   name: Put Your Blog Name Here
-
-posts:
-  location: posts/
+  repositoryUrl: https://github.com/tidyjava/blogging-platform-hello-world.git
