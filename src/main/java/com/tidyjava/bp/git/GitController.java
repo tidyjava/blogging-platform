@@ -1,4 +1,4 @@
-package com.tidyjava.bp;
+package com.tidyjava.bp.git;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

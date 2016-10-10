@@ -1,5 +1,6 @@
-package com.tidyjava.bp
+package com.tidyjava.bp.post
 
+import com.tidyjava.bp.BloggingPlatform
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.test.annotation.DirtiesContext
@@ -14,7 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view
 
-@SpringApplicationConfiguration(BloggingPlatform.class)
+@SpringApplicationConfiguration(BloggingPlatform)
 @WebAppConfiguration
 @DirtiesContext
 class PostControllerIntegrationSpec extends Specification {
@@ -35,21 +36,34 @@ class PostControllerIntegrationSpec extends Specification {
                 .andExpect(view().name("home"))
                 .andReturn()
         def posts = result.modelAndView.model.posts
-        assertTestPost(posts[0], 2)
-        assertTestPost(posts[1], 1)
+        assertTestPost(posts[0], 2, ['tagged'])
+        assertTestPost(posts[1], 1, ['tagged', 'first'])
         assertTiltPost(posts[2])
     }
 
-    def "post"(n) {
+    def "post"() {
         expect:
         def result = mockMvc.perform(get("/post$n"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("post"))
                 .andReturn()
-        assertTestPost(result.modelAndView.model.post, n)
+        assertTestPost(result.modelAndView.model.post, n, tags)
 
         where:
-        n << [1, 2]
+        n || tags
+        1 || ['tagged', 'first']
+        2 || ['tagged']
+    }
+
+    def "tag"() {
+        expect:
+        def result = mockMvc.perform(get("/tag/tagged"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("tag"))
+                .andReturn()
+        def posts = result.modelAndView.model.posts
+        assertTestPost(posts[0], 2, ['tagged'])
+        assertTestPost(posts[1], 1, ['tagged', 'first'])
     }
 
     def "tilt post"() {
@@ -68,12 +82,13 @@ class PostControllerIntegrationSpec extends Specification {
                 .andExpect(view().name("not-found"))
     }
 
-    void assertTestPost(post, n) {
+    void assertTestPost(post, n, tags) {
         assert post.title == "Post $n"
         assert post.summary == "Summary $n"
         assert post.date.format(ISO_LOCAL_DATE) == "197$n-01-01"
         assert post.url == "/post$n"
         assert post.content == "<p><strong>Content $n</strong></p>\n"
+        assert post.tags == tags
     }
 
     void assertTiltPost(post) {

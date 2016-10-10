@@ -1,4 +1,4 @@
-package com.tidyjava.bp;
+package com.tidyjava.bp.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +14,7 @@ public class PostController {
     private String blogName;
 
     @Autowired
-    private GitPostReader postReader;
+    private PostReader postReader;
 
     @ModelAttribute("blogName")
     public String getBlogName() {
@@ -31,6 +31,13 @@ public class PostController {
     public String post(@PathVariable("path") String path, Model model) {
         model.addAttribute("post", postReader.readOne(path));
         return "post";
+    }
+
+    @RequestMapping("/tag/{path}")
+    public String tag(@PathVariable("path") String path, Model model) {
+        model.addAttribute("tag", path);
+        model.addAttribute("posts", postReader.readByTag(path));
+        return "tag";
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

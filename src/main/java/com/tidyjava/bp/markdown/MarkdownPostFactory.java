@@ -1,10 +1,13 @@
-package com.tidyjava.bp;
+package com.tidyjava.bp.markdown;
 
+import com.tidyjava.bp.post.Post;
+import com.tidyjava.bp.post.PostFactory;
 import org.commonmark.ext.front.matter.YamlFrontMatterExtension;
 import org.commonmark.ext.front.matter.YamlFrontMatterVisitor;
 import org.commonmark.html.HtmlRenderer;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileReader;
@@ -13,25 +16,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
-import static com.tidyjava.bp.ExceptionUtils.rethrow;
+import static com.tidyjava.bp.util.ExceptionUtils.rethrow;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
-public class MarkdownPostFactory {
-    public static final String EXTENSION = ".md";
-
-    public static Post create(File file) {
-        Node parsedResource = parse(file);
-        Map<String, List<String>> metadata = extractMetadata(parsedResource);
-
-        String title = getOrDefault(metadata, "title", "TILT");
-        String summary = getOrDefault(metadata, "summary", "TILT");
-        LocalDate date = toLocalDate(getOrDefault(metadata, "date", "1970-01-01"));
-        String url = toUrl(file.getName());
-        String content = toHtml(parsedResource);
-
-        return new Post(title, summary, date, url, content);
-    }
+@Service
+public class MarkdownPostFactory implements PostFactory {
+    private static final String EXTENSION = ".md";
 
     private static Node parse(File file) {
         Parser parser = Parser.builder().extensions(singletonList(YamlFrontMatterExtension.create())).build();
@@ -52,6 +44,10 @@ public class MarkdownPostFactory {
         return metadata.getOrDefault(field, asList(defaultValue)).get(0);
     }
 
+    private static List<String> getOrDefault(Map<String, List<String>> metadata, String field, List<String> defaultValue) {
+        return metadata.getOrDefault(field, defaultValue);
+    }
+
     private static LocalDate toLocalDate(String date) {
         return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
     }
@@ -62,5 +58,25 @@ public class MarkdownPostFactory {
 
     private static String toHtml(Node parsedResource) {
         return HtmlRenderer.builder().build().render(parsedResource);
+    }
+
+    @Override
+    public String extension() {
+        return EXTENSION;
+    }
+
+    @Override
+    public Post create(File file) {
+        Node parsedResource = parse(file);
+        Map<String, List<String>> metadata = extractMetadata(parsedResource);
+
+        String title = getOrDefault(metadata, "title", "TILT");
+        String summary = getOrDefault(metadata, "summary", "TILT");
+        LocalDate date = toLocalDate(getOrDefault(metadata, "date", "1970-01-01"));
+        String url = toUrl(file.getName());
+        String content = toHtml(parsedResource);
+        List<String> tags = getOrDefault(metadata, "tags", emptyList());
+
+        return new Post(title, summary, date, url, content, tags);
     }
 }

@@ -1,4 +1,4 @@
-package com.tidyjava.bp
+package com.tidyjava.bp.git
 
 import spock.lang.Specification
 
