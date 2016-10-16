@@ -1,4 +1,4 @@
-package com.tidyjava.bp.post;
+package com.tidyjava.bp.git;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class GitController {
 
     @Autowired
-    private PostReader postReader;
+    private GitSupportImpl gitSupport;
 
     @RequestMapping(path = "/git/commit", method = RequestMethod.POST)
     public void postCommit() {
-        postReader.pullChanges();
+        gitSupport.pullChanges();
     }
 }

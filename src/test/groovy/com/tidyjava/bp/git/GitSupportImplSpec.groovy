@@ -1,22 +1,22 @@
-package com.tidyjava.bp.post
+package com.tidyjava.bp.git
 
 import spock.lang.Specification
 
 import java.nio.file.Files
 import java.nio.file.Paths
 
-class PostReaderSpec extends Specification {
+class GitSupportImplSpec extends Specification {
     static final CONTENTS_DIRECTORY = ".contents"
     static final CLONE_BLOCKER = CONTENTS_DIRECTORY + "/would-block-clone.txt";
 
-    def gitPostReader = new PostReader()
+    def gitSupport = new GitSupportImpl()
 
     def setup() {
-        gitPostReader.repositoryUrl = "https://github.com/tidyjava/blogging-platform-hello-world.git"
+        gitSupport.repositoryUrl = "https://github.com/tidyjava/blogging-platform-hello-world.git"
     }
 
     def cleanup() {
-        gitPostReader.closeRepository()
+        gitSupport.closeRepository()
     }
 
     def 'should clean and clone'() {
@@ -26,7 +26,7 @@ class PostReaderSpec extends Specification {
         cloneBlocker.createNewFile()
 
         when:
-        gitPostReader.cloneRepository()
+        gitSupport.cloneRepository()
 
         then:
         Files.exists(Paths.get(CONTENTS_DIRECTORY + "/hello-world.md"))

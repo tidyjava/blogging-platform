@@ -1,13 +1,9 @@
 package com.tidyjava.bp.post;
 
-import org.apache.commons.io.FileUtils;
-import org.eclipse.jgit.api.Git;
+import com.tidyjava.bp.git.GitSupport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Comparator;
@@ -15,40 +11,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.tidyjava.bp.util.ExceptionUtils.rethrow;
-
 @Service
 public class PostReader {
-
-    @Value("${blog.repositoryUrl}")
-    private String repositoryUrl;
 
     @Autowired
     private PostFactory postFactory;
 
-    private Git git;
-
-    @PostConstruct
-    public void cloneRepository() {
-        File contentsDir = new File(".contents");
-        clean(contentsDir);
-        cloneTo(contentsDir);
-    }
-
-    private void clean(File dir) {
-        rethrow(() -> FileUtils.deleteDirectory(dir));
-        dir.mkdirs();
-    }
-
-    private void cloneTo(File contentsDir) {
-        git = rethrow(() -> Git.cloneRepository()
-                .setURI(repositoryUrl)
-                .setDirectory(contentsDir)
-                .call());
-    }
+    @Autowired
+    private GitSupport gitSupport;
 
     public List<Post> readAll() {
-        File contentsDir = git.getRepository().getWorkTree();
+        File contentsDir = gitSupport.getWorkTree();
         return Stream.of(contentsDir
                 .listFiles(withSupportedExtension()))
                 .map(postFactory::create)
@@ -72,23 +45,14 @@ public class PostReader {
         return postFactory.create(postFile);
     }
 
+    private String toPostPath(String name) {
+        return gitSupport.getWorkTree().getPath() + "/" + name + postFactory.extension();
+    }
+
     public List<Post> readByTag(String tag) {
         return readAll()
                 .stream()
                 .filter(post -> post.getTags().contains(tag))
                 .collect(Collectors.toList());
-    }
-
-    private String toPostPath(String name) {
-        return git.getRepository().getWorkTree().getPath() + "/" + name + postFactory.extension();
-    }
-
-    public void pullChanges() {
-        rethrow(() -> git.pull().call());
-    }
-
-    @PreDestroy
-    public void closeRepository() {
-        git.close();
     }
 }
