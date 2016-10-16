@@ -1,0 +1,17 @@
+.summary {
+    margin: 24px 0 24px 0;
+}
+
+.home-button {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+}
+
+.post-title {
+    color: #333333 !important;
+}
+
+.no-decor-link:hover {
+    text-decoration: none;
+}

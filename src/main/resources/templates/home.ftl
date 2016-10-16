@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>${blogName}</title>
-</head>
+<#include "head.ftl">
 
-<body>
+<div class="row">
+    <div class="jumbotron text-center">
+        <h1>${blogName}</h1>
+    </div>
+</div>
 
-<#list posts as post>
-<h1><a href="${post.url}">${post.title}</a></h1>
-<div>by ${post.author} <#if post.tags?size != 0>on ${post.tags?join(", ")}</#if></div>
-
-<p>${post.summary}</p>
-</#list>
-
-</body>
-
-</html>
+<#include "posts.ftl">
+<#include "footer.ftl">

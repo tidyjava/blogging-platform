@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Wooops!</title>
-</head>
-
-<body>
+<#include "head.ftl">
 
 Seems you got lost, buddy!
 
-</body>
-
-</html>
+<#include "footer.ftl">
