@@ -1,15 +1,15 @@
-package com.tidyjava.bp.git
+package com.tidyjava.bp.post
 
 import spock.lang.Specification
 
 import java.nio.file.Files
 import java.nio.file.Paths
 
-class GitPostReaderSpec extends Specification {
+class PostReaderSpec extends Specification {
     static final CONTENTS_DIRECTORY = ".contents"
     static final CLONE_BLOCKER = CONTENTS_DIRECTORY + "/would-block-clone.txt";
 
-    def gitPostReader = new GitPostReader()
+    def gitPostReader = new PostReader()
 
     def setup() {
         gitPostReader.repositoryUrl = "https://github.com/tidyjava/blogging-platform-hello-world.git"

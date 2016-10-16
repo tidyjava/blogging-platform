@@ -1,4 +1,4 @@
-package com.tidyjava.bp.git
+package com.tidyjava.bp.post
 
 import com.tidyjava.bp.BloggingPlatform
 import org.springframework.beans.factory.annotation.Autowired
