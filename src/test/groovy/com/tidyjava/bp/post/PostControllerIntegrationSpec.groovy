@@ -89,6 +89,7 @@ class PostControllerIntegrationSpec extends Specification {
         assert post.url == "/post$n"
         assert post.content == "<p><strong>Content $n</strong></p>\n"
         assert post.tags == tags
+        assert post.author == "Author $n"
     }
 
     void assertTiltPost(post) {
@@ -97,5 +98,6 @@ class PostControllerIntegrationSpec extends Specification {
         assert post.date.format(ISO_LOCAL_DATE) == "1970-01-01"
         assert post.url == "/tilt"
         assert post.content == ""
+        assert post.author == "TILT"
     }
 }

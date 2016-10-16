@@ -10,14 +10,16 @@ public class Post {
     private String url;
     private String content;
     private List<String> tags;
+    private String author;
 
-    public Post(String title, String summary, LocalDate date, String url, String content, List<String> tags) {
+    public Post(String title, String summary, LocalDate date, String url, String content, List<String> tags, String author) {
         this.title = title;
         this.summary = summary;
         this.date = date;
         this.url = url;
         this.content = content;
         this.tags = tags;
+        this.author = author;
     }
 
     public String getTitle() {
@@ -42,5 +44,9 @@ public class Post {
 
     public List<String> getTags() {
         return tags;
+    }
+
+    public String getAuthor() {
+        return author;
     }
 }

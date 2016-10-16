@@ -33,8 +33,9 @@ class PostFactory {
         String url = toUrl(file.getName());
         String content = toHtml(parsedResource);
         List<String> tags = getOrDefault(metadata, "tags", emptyList());
+        String author = getOrDefault(metadata, "author", "TILT");
 
-        return new Post(title, summary, date, url, content, tags);
+        return new Post(title, summary, date, url, content, tags, author);
     }
 
     private Node parse(File file) {
