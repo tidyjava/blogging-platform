@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-public class PostReader {
+class PostReader {
 
     @Autowired
     private PostFactory postFactory;
@@ -20,7 +20,7 @@ public class PostReader {
     @Autowired
     private GitSupport gitSupport;
 
-    public List<Post> readAll() {
+    List<Post> readAll() {
         File contentsDir = gitSupport.getWorkTree();
         return Stream.of(contentsDir
                 .listFiles(withSupportedExtension()))
@@ -30,14 +30,14 @@ public class PostReader {
     }
 
     private FilenameFilter withSupportedExtension() {
-        return (dir, name) -> name.endsWith(postFactory.extension());
+        return (dir, name) -> name.endsWith(PostFactory.EXTENSION);
     }
 
     private Comparator<Post> byDate() {
         return (p1, p2) -> p1.getDate().compareTo(p2.getDate());
     }
 
-    public Post readOne(String name) {
+    Post readOne(String name) {
         File postFile = new File(toPostPath(name));
         if (!postFile.exists()) {
             throw new MissingPostException();
@@ -46,10 +46,10 @@ public class PostReader {
     }
 
     private String toPostPath(String name) {
-        return gitSupport.getWorkTree().getPath() + "/" + name + postFactory.extension();
+        return gitSupport.getWorkTree().getPath() + "/" + name + PostFactory.EXTENSION;
     }
 
-    public List<Post> readByTag(String tag) {
+    List<Post> readByTag(String tag) {
         return readAll()
                 .stream()
                 .filter(post -> post.getTags().contains(tag))

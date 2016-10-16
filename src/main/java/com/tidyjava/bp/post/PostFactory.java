@@ -20,49 +20,10 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
 @Service
-public class PostFactory {
-    private static final String EXTENSION = ".md";
+class PostFactory {
+    static final String EXTENSION = ".md";
 
-    private static Node parse(File file) {
-        Parser parser = Parser.builder().extensions(singletonList(YamlFrontMatterExtension.create())).build();
-        return rethrow(() -> {
-            try (FileReader input = new FileReader(file)) {
-                return parser.parseReader(input);
-            }
-        });
-    }
-
-    private static Map<String, List<String>> extractMetadata(Node document) {
-        YamlFrontMatterVisitor visitor = new YamlFrontMatterVisitor();
-        document.accept(visitor);
-        return visitor.getData();
-    }
-
-    private static String getOrDefault(Map<String, List<String>> metadata, String field, String defaultValue) {
-        return metadata.getOrDefault(field, asList(defaultValue)).get(0);
-    }
-
-    private static List<String> getOrDefault(Map<String, List<String>> metadata, String field, List<String> defaultValue) {
-        return metadata.getOrDefault(field, defaultValue);
-    }
-
-    private static LocalDate toLocalDate(String date) {
-        return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
-    }
-
-    private static String toUrl(String filename) {
-        return "/" + filename.replace(EXTENSION, "");
-    }
-
-    private static String toHtml(Node parsedResource) {
-        return HtmlRenderer.builder().build().render(parsedResource);
-    }
-
-    public String extension() {
-        return EXTENSION;
-    }
-
-    public Post create(File file) {
+    Post create(File file) {
         Node parsedResource = parse(file);
         Map<String, List<String>> metadata = extractMetadata(parsedResource);
 
@@ -74,5 +35,40 @@ public class PostFactory {
         List<String> tags = getOrDefault(metadata, "tags", emptyList());
 
         return new Post(title, summary, date, url, content, tags);
+    }
+
+    private Node parse(File file) {
+        Parser parser = Parser.builder().extensions(singletonList(YamlFrontMatterExtension.create())).build();
+        return rethrow(() -> {
+            try (FileReader input = new FileReader(file)) {
+                return parser.parseReader(input);
+            }
+        });
+    }
+
+    private Map<String, List<String>> extractMetadata(Node document) {
+        YamlFrontMatterVisitor visitor = new YamlFrontMatterVisitor();
+        document.accept(visitor);
+        return visitor.getData();
+    }
+
+    private String getOrDefault(Map<String, List<String>> metadata, String field, String defaultValue) {
+        return metadata.getOrDefault(field, asList(defaultValue)).get(0);
+    }
+
+    private List<String> getOrDefault(Map<String, List<String>> metadata, String field, List<String> defaultValue) {
+        return metadata.getOrDefault(field, defaultValue);
+    }
+
+    private LocalDate toLocalDate(String date) {
+        return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+    }
+
+    private String toUrl(String filename) {
+        return "/" + filename.replace(EXTENSION, "");
+    }
+
+    private String toHtml(Node parsedResource) {
+        return HtmlRenderer.builder().build().render(parsedResource);
     }
 }

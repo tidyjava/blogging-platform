@@ -1,4 +1,4 @@
 package com.tidyjava.bp.post;
 
-public class MissingPostException extends RuntimeException {
+class MissingPostException extends RuntimeException {
 }
