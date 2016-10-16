@@ -2,6 +2,7 @@ package com.tidyjava.bp.post
 
 import com.tidyjava.bp.BloggingPlatform
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.web.WebAppConfiguration
@@ -20,6 +21,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext
 class PostControllerIntegrationSpec extends Specification {
 
+    @Value('${blog.name}')
+    String blogName;
+
     @Autowired
     WebApplicationContext wac
 
@@ -35,6 +39,8 @@ class PostControllerIntegrationSpec extends Specification {
                 .andExpect(status().isOk())
                 .andExpect(view().name("home"))
                 .andReturn()
+
+        result.modelAndView.model.title == blogName
         def posts = result.modelAndView.model.posts
         assertTestPost(posts[0], 2, ['tagged'])
         assertTestPost(posts[1], 1, ['tagged', 'first'])
@@ -47,6 +53,8 @@ class PostControllerIntegrationSpec extends Specification {
                 .andExpect(status().isOk())
                 .andExpect(view().name("post"))
                 .andReturn()
+
+        result.modelAndView.model.title == "Post $n"
         assertTestPost(result.modelAndView.model.post, n, tags)
 
         where:
@@ -61,6 +69,8 @@ class PostControllerIntegrationSpec extends Specification {
                 .andExpect(status().isOk())
                 .andExpect(view().name("tag"))
                 .andReturn()
+
+        result.modelAndView.model.title == 'tagged'
         def posts = result.modelAndView.model.posts
         assertTestPost(posts[0], 2, ['tagged'])
         assertTestPost(posts[1], 1, ['tagged', 'first'])
@@ -72,6 +82,8 @@ class PostControllerIntegrationSpec extends Specification {
                 .andExpect(status().isOk())
                 .andExpect(view().name("post"))
                 .andReturn()
+
+        result.modelAndView.model.title == "TILT"
         assertTiltPost(result.modelAndView.model.post)
     }
 
