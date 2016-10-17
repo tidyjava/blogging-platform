@@ -2,7 +2,7 @@
 <#include "home-button.ftl">
 
 <div class="row">
-    <div class="jumbotron text-center">
+    <div class="title-box text-center">
         <h1>${tag}</h1>
     </div>
 </div>

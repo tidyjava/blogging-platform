@@ -7,29 +7,47 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'PT Serif', serif;
 }
 
-.summary {
-    margin: 24px 0 24px 0;
+.title-box {
+    background-color: rgba(235, 235, 255, 0.7);
+    padding-top: 48px;
+    padding-bottom: 48px;
+    margin-bottom: 24px;
 }
+
+.title-box h1 {
+    font-size: 32px;
+}
+
+@media (min-width: 768px) {
+    .title-box h1 {
+        font-size: 64px;
+    }
+}
+
 
 .home-button {
     position: absolute;
-    top: 24px;
-    left: 24px;
-}
-
-.post-title {
-    color: #333333 !important;
-}
-
-.post-metadata {
-    color: #999999;
-    font-size: 14px;
+    top: 12px;
+    left: 12px;
 }
 
 .no-decor-link:hover {
     text-decoration: none;
 }
 
-.jumbotron {
-    background-color: rgba(255, 248, 248, 0.7);
+.post-title {
+    color: #333333 !important;
+}
+
+.post-page-title {
+    margin-top: 64px;
+}
+
+.post-summary {
+    margin: 24px 0 24px 0;
+}
+
+.post-metadata {
+    color: #999999;
+    font-size: 14px;
 }
