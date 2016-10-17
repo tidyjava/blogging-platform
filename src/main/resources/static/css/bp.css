@@ -52,3 +52,8 @@ h1, h2, h3, h4, h5, h6 {
     color: #999999;
     font-size: 14px;
 }
+
+.post-metadata a {
+    color: #999999;
+    font-weight: bold;
+}
