@@ -8,14 +8,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .title-box {
-    background-color: rgba(235, 235, 255, 0.7);
+    background-color: #333333;
     padding-top: 48px;
     padding-bottom: 48px;
     margin-bottom: 24px;
 }
 
 .title-box h1 {
-    font-size: 32px;
+    font-size: 48px;
+    color: white;
 }
 
 @media (min-width: 768px) {
