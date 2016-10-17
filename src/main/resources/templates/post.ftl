@@ -9,7 +9,7 @@
             Tags: <#list post.tags as tag><a href="/tag/${tag}">${tag}</a> </#list>
         </#if></div>
 
-        <p class="summary"><i>${post.summary}</i></p>
+        <p class="summary">${post.summary}</p>
 
         <p>${post.content}</p>
 

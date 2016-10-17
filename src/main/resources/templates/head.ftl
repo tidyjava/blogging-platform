@@ -8,6 +8,7 @@
     <title>${title!"Woooops!"}</title>
 
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif" rel="stylesheet">
     <link rel="stylesheet" href="/css/bp.css">
 </head>
 <body>
