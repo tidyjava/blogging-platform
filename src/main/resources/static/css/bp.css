@@ -1,5 +1,6 @@
 body {
     font-family: 'PT Sans', sans-serif;
+    font-size: 18px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -18,6 +19,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .post-title {
     color: #333333 !important;
+}
+
+.post-metadata {
+    color: #999999;
+    font-size: 14px;
 }
 
 .no-decor-link:hover {
