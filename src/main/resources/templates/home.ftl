@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="jumbotron text-center">
-        <h1>${title}</h1>
+        <h1><strong>${title}</strong></h1>
     </div>
 </div>
 

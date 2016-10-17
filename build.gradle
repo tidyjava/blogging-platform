@@ -29,6 +29,7 @@ repositories {
 dependencies {
     //spring
     compile 'org.springframework.boot:spring-boot-starter-freemarker'
+    compile('org.springframework.boot:spring-boot-devtools')
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 
     //markdown
