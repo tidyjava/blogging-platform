@@ -23,12 +23,16 @@ import static java.util.Collections.singletonList;
 class PostFactory {
     static final String EXTENSION = ".md";
 
+    private static final Parser parser = Parser.builder()
+            .extensions(singletonList(YamlFrontMatterExtension.create()))
+            .build();
+
     Post create(File file) {
         Node parsedResource = parse(file);
         Map<String, List<String>> metadata = extractMetadata(parsedResource);
 
         String title = getOrDefault(metadata, "title", "TILT");
-        String summary = getOrDefault(metadata, "summary", "TILT");
+        String summary = getSummary(metadata);
         LocalDate date = toLocalDate(getOrDefault(metadata, "date", "1970-01-01"));
         String url = toUrl(file.getName());
         String content = toHtml(parsedResource);
@@ -39,12 +43,15 @@ class PostFactory {
     }
 
     private Node parse(File file) {
-        Parser parser = Parser.builder().extensions(singletonList(YamlFrontMatterExtension.create())).build();
         return rethrow(() -> {
             try (FileReader input = new FileReader(file)) {
                 return parser.parseReader(input);
             }
         });
+    }
+
+    private Node parse(String input) {
+        return rethrow(() -> parser.parse(input));
     }
 
     private Map<String, List<String>> extractMetadata(Node document) {
@@ -59,6 +66,12 @@ class PostFactory {
 
     private List<String> getOrDefault(Map<String, List<String>> metadata, String field, List<String> defaultValue) {
         return metadata.getOrDefault(field, defaultValue);
+    }
+
+    private String getSummary(Map<String, List<String>> metadata) {
+        String summaryMarkdown = getOrDefault(metadata, "summary", "TILT");
+        Node parsedSummary = parse(summaryMarkdown);
+        return toHtml(parsedSummary);
     }
 
     private LocalDate toLocalDate(String date) {

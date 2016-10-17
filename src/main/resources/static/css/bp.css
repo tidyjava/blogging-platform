@@ -44,7 +44,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 64px;
 }
 
-.post-summary {
+.post-summary p {
     margin: 24px 0 24px 0;
 }
 

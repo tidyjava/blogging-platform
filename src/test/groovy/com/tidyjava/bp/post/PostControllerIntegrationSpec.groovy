@@ -96,7 +96,7 @@ class PostControllerIntegrationSpec extends Specification {
 
     void assertTestPost(post, n, tags) {
         assert post.title == "Post $n"
-        assert post.summary == "Summary $n"
+        assert post.summary == "<p>Summary $n</p>\n"
         assert post.date.format(ISO_LOCAL_DATE) == "197$n-01-01"
         assert post.url == "/post$n"
         assert post.content == "<p><strong>Content $n</strong></p>\n"
@@ -106,7 +106,7 @@ class PostControllerIntegrationSpec extends Specification {
 
     void assertTiltPost(post) {
         assert post.title == "TILT"
-        assert post.summary == "TILT"
+        assert post.summary == "<p>TILT</p>\n"
         assert post.date.format(ISO_LOCAL_DATE) == "1970-01-01"
         assert post.url == "/tilt"
         assert post.content == ""
