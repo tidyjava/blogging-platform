@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="title-box text-center">
-        <h1><strong>${tag}</strong></h1>
+        <h1>${tag}</h1>
     </div>
 </div>
 

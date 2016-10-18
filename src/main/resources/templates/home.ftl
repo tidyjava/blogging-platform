@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="title-box text-center">
-        <h1><strong>${title}</strong></h1>
+        <h1>${title}</h1>
     </div>
 </div>
 
