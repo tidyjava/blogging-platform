@@ -79,3 +79,9 @@ pre {
 .post-metadata a:hover {
     text-decoration: underline;
 }
+
+.post img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
