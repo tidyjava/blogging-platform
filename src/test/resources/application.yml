@@ -1,3 +1,7 @@
 blog:
   name: Test Blog
   repositoryUrl: https://github.com/tidyjava/blogging-platform-test-contents.git
+
+analytics:
+  enabled: false
+  trackingCode:

@@ -2,7 +2,7 @@
 <#include "home-button.ftl">
 
 <div class="row">
-    <div class="col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+    <div class="post col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
         <h1 class="post-title post-page-title">${post.title}</h1>
         <div class="post-metadata">Posted by ${post.author} on ${post.date}
         <#if post.tags?size != 0>
