@@ -31,6 +31,7 @@ class PostFactory {
         Node parsedResource = parse(file);
         Map<String, List<String>> metadata = extractMetadata(parsedResource);
 
+        String id = getOrDefault(metadata, "id", toId(file.getName()));
         String title = getOrDefault(metadata, "title", "TILT");
         String summary = getSummary(metadata);
         LocalDate date = toLocalDate(getOrDefault(metadata, "date", "1970-01-01"));
@@ -39,7 +40,7 @@ class PostFactory {
         List<String> tags = getOrDefault(metadata, "tags", emptyList());
         String author = getOrDefault(metadata, "author", "TILT");
 
-        return new Post(title, summary, date, url, content, tags, author);
+        return new Post(id, title, summary, date, url, content, tags, author);
     }
 
     private Node parse(File file) {
@@ -66,6 +67,10 @@ class PostFactory {
 
     private List<String> getOrDefault(Map<String, List<String>> metadata, String field, List<String> defaultValue) {
         return metadata.getOrDefault(field, defaultValue);
+    }
+
+    private String toId(String filename) {
+        return filename.replace(EXTENSION, "");
     }
 
     private String getSummary(Map<String, List<String>> metadata) {

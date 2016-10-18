@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Post {
+    private String id;
     private String title;
     private String summary;
     private LocalDate date;
@@ -12,7 +13,8 @@ public class Post {
     private List<String> tags;
     private String author;
 
-    public Post(String title, String summary, LocalDate date, String url, String content, List<String> tags, String author) {
+    public Post(String id, String title, String summary, LocalDate date, String url, String content, List<String> tags, String author) {
+        this.id = id;
         this.title = title;
         this.summary = summary;
         this.date = date;
@@ -20,6 +22,10 @@ public class Post {
         this.content = content;
         this.tags = tags;
         this.author = author;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {

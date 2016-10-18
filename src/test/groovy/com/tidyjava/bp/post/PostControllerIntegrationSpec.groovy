@@ -2,7 +2,6 @@ package com.tidyjava.bp.post
 
 import com.tidyjava.bp.BloggingPlatform
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.web.WebAppConfiguration
@@ -21,9 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext
 class PostControllerIntegrationSpec extends Specification {
 
-    @Value('${blog.name}')
-    String blogName;
-
     @Autowired
     WebApplicationContext wac
 
@@ -40,7 +36,7 @@ class PostControllerIntegrationSpec extends Specification {
                 .andExpect(view().name("home"))
                 .andReturn()
 
-        result.modelAndView.model.title == blogName
+        result.modelAndView.model.title == 'Test Blog'
         def posts = result.modelAndView.model.posts
         assertTestPost(posts[0], 2, ['tagged'])
         assertTestPost(posts[1], 1, ['tagged', 'first'])
@@ -95,6 +91,7 @@ class PostControllerIntegrationSpec extends Specification {
     }
 
     void assertTestPost(post, n, tags) {
+        assert post.id == "post$n"
         assert post.title == "Post $n"
         assert post.summary == "<p>Summary $n</p>\n"
         assert post.date.format(ISO_LOCAL_DATE) == "197$n-01-01"
@@ -105,6 +102,7 @@ class PostControllerIntegrationSpec extends Specification {
     }
 
     void assertTiltPost(post) {
+        assert post.id == "tilt"
         assert post.title == "TILT"
         assert post.summary == "<p>TILT</p>\n"
         assert post.date.format(ISO_LOCAL_DATE) == "1970-01-01"
