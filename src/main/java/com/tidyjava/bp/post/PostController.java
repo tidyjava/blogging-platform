@@ -17,7 +17,7 @@ public class PostController {
     private String blogName;
 
     @Autowired
-    private PostReader postReader;
+    private PostReaderImpl postReader;
 
     @RequestMapping("/")
     public String home(Model model) {

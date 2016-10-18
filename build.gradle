@@ -40,6 +40,9 @@ dependencies {
     compile 'org.eclipse.jgit:org.eclipse.jgit:4.4.1.201607150455-r'
     compile 'commons-io:commons-io:2.5'
 
+    //rss
+    compile 'com.rometools:rome:1.7.0'
+
     // spock
     compile 'org.codehaus.groovy:groovy-all:2.4.1'
     testCompile 'org.spockframework:spock-spring:1.0-groovy-2.4'

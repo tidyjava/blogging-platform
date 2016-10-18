@@ -1,6 +1,6 @@
 blog:
   name: Put Your Blog Name Here
-  repositoryUrl: https://github.com/tidyjava/blogging-platform-hello-world.git
+  repositoryUrl: https://github.com/tidyjava/tidyjava-contents.git
   url: http://localhost:8080
 
 analytics:
