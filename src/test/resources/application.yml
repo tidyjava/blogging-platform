@@ -1,7 +1,9 @@
 blog:
   name: Test Blog
-  repositoryUrl: https://github.com/tidyjava/blogging-platform-test-contents.git
   url: http://localhost:8080
+
+git:
+  repository: https://github.com/tidyjava/blogging-platform-test-contents.git
 
 analytics:
   enabled: true

@@ -14,7 +14,7 @@ import static com.tidyjava.bp.util.ExceptionUtils.rethrow;
 @Component
 class GitSupportImpl implements GitSupport {
 
-    @Value("${blog.repositoryUrl}")
+    @Value("${git.repository}")
     private String repositoryUrl;
 
     private Git git;
