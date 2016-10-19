@@ -12,3 +12,9 @@ analytics:
 disqus:
   enabled: false
   name:
+
+social:
+  links:
+    -
+      name: RSS
+      url: http://localhost:8080/rss
