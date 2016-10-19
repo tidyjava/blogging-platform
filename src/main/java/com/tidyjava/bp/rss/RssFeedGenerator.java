@@ -37,7 +37,7 @@ public class RssFeedGenerator {
         return feed;
     }
 
-    protected List<SyndEntry> buildFeedEntries() {
+    private List<SyndEntry> buildFeedEntries() {
         return postReader.readLast5()
                 .stream()
                 .map(this::toEntry)
