@@ -21,7 +21,12 @@ public class PostReaderImpl implements PostReader {
     private GitSupport gitSupport;
 
     @Override
-    public List<Post> readAll() {
+    public List<Post> readLast5() {
+        List<Post> all = readAll();
+        return all.subList(0, Math.min(5, all.size()));
+    }
+
+    List<Post> readAll() {
         File contentsDir = gitSupport.getWorkTree();
         return Stream.of(contentsDir
                 .listFiles(withSupportedExtension()))
