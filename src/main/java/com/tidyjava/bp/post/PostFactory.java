@@ -1,10 +1,12 @@
 package com.tidyjava.bp.post;
 
+import com.tidyjava.commonmark.mark.MarkExtension;
+import org.commonmark.Extension;
 import org.commonmark.ext.front.matter.YamlFrontMatterExtension;
 import org.commonmark.ext.front.matter.YamlFrontMatterVisitor;
-import org.commonmark.html.HtmlRenderer;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -17,15 +19,13 @@ import java.util.Map;
 import static com.tidyjava.bp.util.ExceptionUtils.rethrow;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 
 @Service
 class PostFactory {
     static final String EXTENSION = ".md";
 
-    private static final Parser parser = Parser.builder()
-            .extensions(singletonList(YamlFrontMatterExtension.create()))
-            .build();
+    private static final List<Extension> EXTENSIONS = asList(YamlFrontMatterExtension.create(), MarkExtension.create());
+    private static final Parser parser = Parser.builder().extensions(EXTENSIONS).build();
 
     Post create(File file) {
         Node parsedResource = parse(file);
@@ -88,6 +88,6 @@ class PostFactory {
     }
 
     private String toHtml(Node parsedResource) {
-        return HtmlRenderer.builder().build().render(parsedResource);
+        return HtmlRenderer.builder().extensions(EXTENSIONS).build().render(parsedResource);
     }
 }
