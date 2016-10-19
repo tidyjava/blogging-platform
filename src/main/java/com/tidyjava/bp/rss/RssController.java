@@ -15,7 +15,7 @@ public class RssController {
     @Autowired
     private RssFeedGenerator rssFeedGenerator;
 
-    @RequestMapping(path = "/rss/", produces = APPLICATION_XML_VALUE)
+    @RequestMapping(path = "/rss", produces = APPLICATION_XML_VALUE)
     @ResponseBody
     public String rss() throws Exception {
         SyndFeed feed = rssFeedGenerator.generate();
