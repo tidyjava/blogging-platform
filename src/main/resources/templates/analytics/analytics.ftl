@@ -14,6 +14,5 @@
 
         ga('create', '${analyticsCode}', 'auto');
         ga('send', 'pageview');
-
 </script>
 </#if>

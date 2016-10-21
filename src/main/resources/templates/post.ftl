@@ -7,7 +7,8 @@
         <div class="post-metadata">Posted by ${post.author} on ${post.date}
         <#if post.tags?size != 0>
             | Tags: <#list post.tags as tag><a href="/tag/${tag}">${tag}</a> </#list>
-        </#if></div>
+        </#if>
+        </div>
 
         <p class="post-summary">${post.summary}</p>
 
