@@ -3,8 +3,9 @@
 
 <div class="row">
     <div class="title-box text-center">
-        <h1>404 - Not Found</h1>
+        <h1>${tag}</h1>
     </div>
 </div>
 
+<#include "posts.ftl">
 <#include "footer.ftl">

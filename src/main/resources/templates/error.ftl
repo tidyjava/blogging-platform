@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Wooops!</title>
-</head>
+<#include "head.ftl">
+<#include "home-button.ftl">
 
-<body>
+<div class="row">
+    <div class="title-box text-center">
+        <h1>500 - Error</h1>
+    </div>
+</div>
 
-Something went terribly wrong!
-
-</body>
-
-</html>
+<#include "footer.ftl">

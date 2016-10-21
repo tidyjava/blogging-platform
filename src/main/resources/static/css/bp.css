@@ -1,0 +1,106 @@
+body {
+    font-family: 'PT Sans', sans-serif;
+    font-size: 18px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'PT Serif', serif;
+    font-weight: bold;
+}
+
+a {
+    color: #333333;
+    text-decoration: underline;
+}
+
+a :hover {
+    color: #000000 !important;
+}
+
+p {
+    margin-bottom: 36px;
+}
+
+pre {
+    margin-bottom: 36px !important;
+}
+
+.title-box {
+    background-color: #333333;
+    padding: 24px 24px 48px 24px;
+    margin-bottom: 24px;
+    color: white;
+}
+
+.title-box a {
+    margin-left: 24px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+.title-box h1 {
+    font-size: 48px;
+}
+
+@media (min-width: 768px) {
+    .title-box h1 {
+        font-size: 64px;
+    }
+}
+
+.home-button {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+}
+
+.no-decor-link, .no-decor-link:hover {
+    text-decoration: none;
+}
+
+.post-title {
+    color: #333333 !important;
+}
+
+.post-page-title {
+    margin-top: 64px;
+}
+
+.post-summary p {
+    margin: 24px 0 24px 0;
+}
+
+.post-metadata {
+    color: #999999;
+    font-size: 14px;
+}
+
+.post-metadata a {
+    color: #999999;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.post-metadata a:hover {
+    text-decoration: underline;
+}
+
+.post img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+}
+
+.footer {
+    position: relative;
+    float: right;
+    text-align: right;
+    margin-bottom: 12px;
+    margin-right: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #999999;
+}

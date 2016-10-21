@@ -29,15 +29,19 @@ repositories {
 dependencies {
     //spring
     compile 'org.springframework.boot:spring-boot-starter-freemarker'
+    compile('org.springframework.boot:spring-boot-devtools')
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 
     //markdown
-    compile 'com.atlassian.commonmark:commonmark:0.5.1'
-    compile 'com.atlassian.commonmark:commonmark-ext-yaml-front-matter:0.5.1'
+    compile 'com.atlassian.commonmark:commonmark:0.7.1'
+    compile 'com.atlassian.commonmark:commonmark-ext-yaml-front-matter:0.7.1'
 
     //git
     compile 'org.eclipse.jgit:org.eclipse.jgit:4.4.1.201607150455-r'
     compile 'commons-io:commons-io:2.5'
+
+    //rss
+    compile 'com.rometools:rome:1.7.0'
 
     // spock
     compile 'org.codehaus.groovy:groovy-all:2.4.1'

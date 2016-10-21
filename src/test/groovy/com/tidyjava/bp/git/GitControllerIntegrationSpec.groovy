@@ -1,5 +1,6 @@
-package com.tidyjava.bp
+package com.tidyjava.bp.git
 
+import com.tidyjava.bp.BloggingPlatform
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.test.annotation.DirtiesContext
@@ -12,7 +13,7 @@ import spock.lang.Specification
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@SpringApplicationConfiguration(BloggingPlatform.class)
+@SpringApplicationConfiguration(BloggingPlatform)
 @WebAppConfiguration
 @DirtiesContext
 class GitControllerIntegrationSpec extends Specification {
@@ -26,7 +27,7 @@ class GitControllerIntegrationSpec extends Specification {
         mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
     }
 
-    def "post commit hook"() {
+    def "post commit hook should be successful"() {
         expect:
         mockMvc.perform(post("/git/commit"))
                 .andExpect(status().isOk())
