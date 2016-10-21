@@ -27,17 +27,31 @@ pre {
 
 .title-box {
     background-color: #333333;
-    padding: 24px 24px 48px 24px;
-    margin-bottom: 24px;
+    padding: 12px 12px 36px 12px;
+    margin-bottom: 12px;
     color: white;
 }
 
+@media (min-width: 768px) {
+    .title-box {
+        padding: 24px 24px 48px 24px;
+        margin-bottom: 24px;
+    }
+}
+
 .title-box a {
-    margin-left: 24px;
-    font-size: 24px;
+    margin-left: 12px;
+    font-size: 18px;
     font-weight: bold;
     color: white;
     text-decoration: none;
+}
+
+@media (min-width: 768px) {
+    .title-box a {
+        margin-left: 24px;
+        font-size: 24px;
+    }
 }
 
 .title-box h1 {
