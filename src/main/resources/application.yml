@@ -17,5 +17,3 @@ social:
   links:
     - name: RSS
       url: http://localhost:8080/rss
-    - name: Twitter
-      url: http://localhost:8080/rss
