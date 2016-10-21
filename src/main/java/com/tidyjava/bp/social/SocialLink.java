@@ -3,8 +3,10 @@ package com.tidyjava.bp.social;
 import org.hibernate.validator.constraints.NotBlank;
 
 public class SocialLink {
+
     @NotBlank
     private String name;
+
     @NotBlank
     private String url;
 
@@ -33,7 +35,6 @@ public class SocialLink {
 
         if (!name.equals(that.name)) return false;
         return url.equals(that.url);
-
     }
 
     @Override

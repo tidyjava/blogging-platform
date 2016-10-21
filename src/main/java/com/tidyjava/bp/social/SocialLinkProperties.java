@@ -9,6 +9,7 @@ import java.util.List;
 @Component
 @ConfigurationProperties(prefix = "social")
 public class SocialLinkProperties {
+
     @Valid
     private List<SocialLink> links;
 

@@ -27,7 +27,7 @@ class SocialLinksIntegrationSpec extends Specification {
         mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
     }
 
-    def "social links model properties"() {
+    def "social component should fill model properties necessary to render social links"() {
         given:
         def rssLink = new SocialLink()
         rssLink.name = "RSS"

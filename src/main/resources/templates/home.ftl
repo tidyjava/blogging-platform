@@ -2,11 +2,7 @@
 
 <div class="row">
     <div class="title-box">
-        <div class="text-right">
-        <#list socialLinks as link>
-            <a href="${link.url}" target="_blank">${link.name}</a>
-        </#list>
-        </div>
+    <#include "social/social-links.ftl">
         <h1 class="text-center">${title}</h1>
     </div>
 </div>

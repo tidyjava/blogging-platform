@@ -15,6 +15,5 @@ disqus:
 
 social:
   links:
-    -
-      name: RSS
+    - name: RSS
       url: http://localhost:8080/rss
