@@ -27,7 +27,7 @@ class AnalyticsIntegrationSpec extends Specification {
         mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
     }
 
-    def "analytics model properties"() {
+    def "analytics component should fill model properties necessary to integrate with Google Analytics"() {
         expect:
         def result = mockMvc.perform(get("/"))
                 .andExpect(status().isOk())

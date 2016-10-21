@@ -27,7 +27,7 @@ class GitControllerIntegrationSpec extends Specification {
         mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
     }
 
-    def "post commit hook"() {
+    def "post commit hook should be successful"() {
         expect:
         mockMvc.perform(post("/git/commit"))
                 .andExpect(status().isOk())

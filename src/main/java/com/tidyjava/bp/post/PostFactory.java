@@ -25,12 +25,15 @@ class PostFactory {
     static final String EXTENSION = ".md";
 
     private static final List<Extension> EXTENSIONS = asList(YamlFrontMatterExtension.create(), MarkExtension.create());
-    private static final Parser parser = Parser.builder().extensions(EXTENSIONS).build();
+    private static final Parser PARSER = Parser.builder().extensions(EXTENSIONS).build();
 
     Post create(File file) {
         Node parsedResource = parse(file);
         Map<String, List<String>> metadata = extractMetadata(parsedResource);
+        return toPost(file, parsedResource, metadata);
+    }
 
+    private Post toPost(File file, Node parsedResource, Map<String, List<String>> metadata) {
         String id = getOrDefault(metadata, "id", toId(file.getName()));
         String title = getOrDefault(metadata, "title", "TILT");
         String summary = getSummary(metadata);
@@ -39,20 +42,19 @@ class PostFactory {
         String content = toHtml(parsedResource);
         List<String> tags = getOrDefault(metadata, "tags", emptyList());
         String author = getOrDefault(metadata, "author", "TILT");
-
         return new Post(id, title, summary, date, url, content, tags, author);
     }
 
     private Node parse(File file) {
         return rethrow(() -> {
             try (FileReader input = new FileReader(file)) {
-                return parser.parseReader(input);
+                return PARSER.parseReader(input);
             }
         });
     }
 
     private Node parse(String input) {
-        return rethrow(() -> parser.parse(input));
+        return rethrow(() -> PARSER.parse(input));
     }
 
     private Map<String, List<String>> extractMetadata(Node document) {

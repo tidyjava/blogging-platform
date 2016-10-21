@@ -3,5 +3,5 @@ package com.tidyjava.bp.post;
 import java.util.List;
 
 public interface PostReader {
-    List<Post> readLast5();
+    List<Post> readLast(int quantity);
 }

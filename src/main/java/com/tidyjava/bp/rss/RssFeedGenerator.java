@@ -18,6 +18,7 @@ import static java.util.Arrays.asList;
 
 @Component
 public class RssFeedGenerator {
+    private static final int DEFAULT_FEED_LENGTH = 5;
 
     @Value("${blog.name}")
     private String blogName;
@@ -38,7 +39,7 @@ public class RssFeedGenerator {
     }
 
     private List<SyndEntry> buildFeedEntries() {
-        return postReader.readLast5()
+        return postReader.readLast(DEFAULT_FEED_LENGTH)
                 .stream()
                 .map(this::toEntry)
                 .collect(Collectors.toList());
@@ -57,11 +58,15 @@ public class RssFeedGenerator {
     }
 
     private List<SyndCategory> toCategories(List<String> tags) {
-        return tags.stream().map(tag -> {
-            SyndCategory category = new SyndCategoryImpl();
-            category.setName(tag);
-            return category;
-        }).collect(Collectors.toList());
+        return tags.stream()
+                .map(this::toCategory)
+                .collect(Collectors.toList());
+    }
+
+    private SyndCategory toCategory(String tag) {
+        SyndCategory category = new SyndCategoryImpl();
+        category.setName(tag);
+        return category;
     }
 
     private Date toDate(LocalDate localDate) {

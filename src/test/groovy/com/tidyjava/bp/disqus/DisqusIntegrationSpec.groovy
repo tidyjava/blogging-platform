@@ -27,7 +27,7 @@ class DisqusIntegrationSpec extends Specification {
         mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
     }
 
-    def "disqus model properties"() {
+    def "disqus component should fill model properties necessary to integrate with Disqus"() {
         expect:
         def result = mockMvc.perform(get("/post1"))
                 .andExpect(status().isOk())

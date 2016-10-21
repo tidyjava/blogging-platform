@@ -18,7 +18,7 @@ class RssFeedGeneratorIntegrationSpec extends Specification {
     @Autowired
     RssFeedGenerator rssFeedGenerator
 
-    def "feed generation"() {
+    def "generate method should return feed with entries for each post"() {
         when:
         def feed = rssFeedGenerator.generate()
 
@@ -27,12 +27,12 @@ class RssFeedGeneratorIntegrationSpec extends Specification {
         feed.link == 'http://localhost:8080'
 
         def entries = feed.entries
-        assertTestItem(entries[0], 2, ['tagged'])
-        assertTestItem(entries[1], 1, ['tagged', 'first'])
-        assertTiltItem(entries[2])
+        "assert entry contains test post data"(entries[0], 2, ['tagged'])
+        "assert entry contains test post data"(entries[1], 1, ['tagged', 'first'])
+        "assert entry contains tilt post data"(entries[2])
     }
 
-    void assertTestItem(entry, n, tags) {
+    void "assert entry contains test post data"(entry, n, tags) {
         assert entry.title == "Post $n"
         assert entry.description.value == "<p>Summary $n</p>\n"
         assert entry.link == "http://localhost:8080/post$n"
@@ -50,7 +50,7 @@ class RssFeedGeneratorIntegrationSpec extends Specification {
         }).collect(Collectors.toList())
     }
 
-    void assertTiltItem(entry) {
+    void "assert entry contains tilt post data"(entry) {
         assert entry.title == "TILT"
         assert entry.description.value == "<p>TILT</p>\n"
         assert entry.link == "http://localhost:8080/tilt"

@@ -18,21 +18,25 @@ class PostReaderImplSpec extends Specification {
         postReader.postFactory = new PostFactory()
     }
 
-    def "read last 5"() {
+    def "readLast method should limit returned posts to given quantity"() {
         given:
         gitSupport.workTree >> temporaryFolder.root
-        (1..posts).forEach({ temporaryFolder.newFile(it + ".md") })
+        "create posts"(totalQuantity)
 
         when:
-        def last5 = postReader.readLast5()
+        def lastPosts = postReader.readLast(requestedQuantity)
 
         then:
-        last5.size() == expectedPosts
+        lastPosts.size() == expectedQuantity
 
         where:
-        posts || expectedPosts
-        1     || 1
-        5     || 5
-        10    || 5
+        totalQuantity | requestedQuantity || expectedQuantity
+        1             | 2                 || 1
+        2             | 2                 || 2
+        2             | 1                 || 1
+    }
+
+    def "create posts"(quantity) {
+        (1..quantity).forEach({ temporaryFolder.newFile(it + ".md") })
     }
 }

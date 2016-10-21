@@ -29,7 +29,7 @@ class PostControllerIntegrationSpec extends Specification {
         mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build()
     }
 
-    def "home"() {
+    def "home endpoint should present all posts"() {
         expect:
         def result = mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
@@ -38,12 +38,12 @@ class PostControllerIntegrationSpec extends Specification {
 
         result.modelAndView.model.title == 'Test Blog'
         def posts = result.modelAndView.model.posts
-        assertTestPost(posts[0], 2, ['tagged'])
-        assertTestPost(posts[1], 1, ['tagged', 'first'])
-        assertTiltPost(posts[2])
+        "assert post contains test data"(posts[0], 2, ['tagged'])
+        "assert post contains test data"(posts[1], 1, ['tagged', 'first'])
+        "assert post contains tilt data"(posts[2])
     }
 
-    def "post"() {
+    def "post endpoint should present a single post"() {
         expect:
         def result = mockMvc.perform(get("/post$n"))
                 .andExpect(status().isOk())
@@ -51,7 +51,7 @@ class PostControllerIntegrationSpec extends Specification {
                 .andReturn()
 
         result.modelAndView.model.title == "Post $n"
-        assertTestPost(result.modelAndView.model.post, n, tags)
+        "assert post contains test data"(result.modelAndView.model.post, n, tags)
 
         where:
         n || tags
@@ -59,7 +59,7 @@ class PostControllerIntegrationSpec extends Specification {
         2 || ['tagged']
     }
 
-    def "tag"() {
+    def "tag endpoint should present posts with given tag"() {
         expect:
         def result = mockMvc.perform(get("/tag/tagged"))
                 .andExpect(status().isOk())
@@ -68,11 +68,11 @@ class PostControllerIntegrationSpec extends Specification {
 
         result.modelAndView.model.title == 'tagged'
         def posts = result.modelAndView.model.posts
-        assertTestPost(posts[0], 2, ['tagged'])
-        assertTestPost(posts[1], 1, ['tagged', 'first'])
+        "assert post contains test data"(posts[0], 2, ['tagged'])
+        "assert post contains test data"(posts[1], 1, ['tagged', 'first'])
     }
 
-    def "tilt post"() {
+    def "post with missing fields should be presented with default values"() {
         expect:
         def result = mockMvc.perform(get("/tilt"))
                 .andExpect(status().isOk())
@@ -80,17 +80,17 @@ class PostControllerIntegrationSpec extends Specification {
                 .andReturn()
 
         result.modelAndView.model.title == "TILT"
-        assertTiltPost(result.modelAndView.model.post)
+        "assert post contains tilt data"(result.modelAndView.model.post)
     }
 
-    def "missing post"() {
+    def "missing post endpoint should present not-found page"() {
         expect:
         mockMvc.perform(get("/surely-not-existent"))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("not-found"))
     }
 
-    void assertTestPost(post, n, tags) {
+    void "assert post contains test data"(post, n, tags) {
         assert post.id == "post$n"
         assert post.title == "Post $n"
         assert post.summary == "<p>Summary $n</p>\n"
@@ -101,7 +101,7 @@ class PostControllerIntegrationSpec extends Specification {
         assert post.author == "Author $n"
     }
 
-    void assertTiltPost(post) {
+    void "assert post contains tilt data"(post) {
         assert post.id == "tilt"
         assert post.title == "TILT"
         assert post.summary == "<p>TILT</p>\n"

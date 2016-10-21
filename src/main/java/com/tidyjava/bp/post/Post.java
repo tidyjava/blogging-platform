@@ -13,7 +13,7 @@ public class Post {
     private List<String> tags;
     private String author;
 
-    public Post(String id, String title, String summary, LocalDate date, String url, String content, List<String> tags, String author) {
+    Post(String id, String title, String summary, LocalDate date, String url, String content, List<String> tags, String author) {
         this.id = id;
         this.title = title;
         this.summary = summary;

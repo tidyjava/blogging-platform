@@ -19,7 +19,7 @@ class GitSupportImplSpec extends Specification {
         gitSupport.closeRepository()
     }
 
-    def 'should clean and clone'() {
+    def "cloneRepository should clean target directory and clone given repository"() {
         given:
         File cloneBlocker = new File(CLONE_BLOCKER)
         cloneBlocker.mkdirs()

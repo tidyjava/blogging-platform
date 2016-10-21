@@ -21,9 +21,9 @@ public class PostReaderImpl implements PostReader {
     private GitSupport gitSupport;
 
     @Override
-    public List<Post> readLast5() {
+    public List<Post> readLast(int quantity) {
         List<Post> all = readAll();
-        return all.subList(0, Math.min(5, all.size()));
+        return all.subList(0, Math.min(quantity, all.size()));
     }
 
     List<Post> readAll() {
