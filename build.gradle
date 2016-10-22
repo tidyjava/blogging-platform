@@ -32,9 +32,6 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-devtools'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 
-    //guava
-    compile 'com.google.guava:guava:19.0'
-
     //markdown
     compile 'com.atlassian.commonmark:commonmark:0.7.1'
     compile 'com.atlassian.commonmark:commonmark-ext-yaml-front-matter:0.7.1'
@@ -48,6 +45,8 @@ dependencies {
 
     //sitemap
     compile 'cz.jiripinkas:jsitemapgenerator:2.2'
+    testCompile 'com.google.guava:guava:19.0'
+    testCompile 'xmlunit:xmlunit:1.6'
 
     // spock
     compile 'org.codehaus.groovy:groovy-all:2.4.1'

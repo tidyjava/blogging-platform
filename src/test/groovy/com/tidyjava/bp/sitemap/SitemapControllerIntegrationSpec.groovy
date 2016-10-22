@@ -12,7 +12,6 @@ import org.springframework.web.context.WebApplicationContext
 import spock.lang.Specification
 
 import static com.google.common.base.Charsets.UTF_8
-import static org.hamcrest.Matchers.equalTo
 import static org.springframework.http.MediaType.APPLICATION_XML
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
@@ -41,6 +40,6 @@ class SitemapControllerIntegrationSpec extends Specification {
         mockMvc.perform(get("/sitemap.xml"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_XML))
-                .andExpect(content().string(equalTo(expectedSitemap)))
+                .andExpect(content().xml(expectedSitemap))
     }
 }
