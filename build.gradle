@@ -55,6 +55,11 @@ dependencies {
     testRuntime 'org.objenesis:objenesis:2.1'
 }
 
+test {
+    testLogging {
+        exceptionFormat = 'full'
+    }
+}
 
 eclipse {
     classpath {
