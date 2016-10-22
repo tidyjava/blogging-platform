@@ -4,16 +4,18 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Post {
+    static final String URL_PREFIX = "/";
+
     private String id;
     private String title;
     private String summary;
     private LocalDate date;
     private String url;
     private String content;
-    private List<String> tags;
+    private List<Tag> tags;
     private String author;
 
-    Post(String id, String title, String summary, LocalDate date, String url, String content, List<String> tags, String author) {
+    Post(String id, String title, String summary, LocalDate date, String url, String content, List<Tag> tags, String author) {
         this.id = id;
         this.title = title;
         this.summary = summary;
@@ -48,8 +50,12 @@ public class Post {
         return content;
     }
 
-    public List<String> getTags() {
+    public List<Tag> getTags() {
         return tags;
+    }
+
+    public boolean hasTag(Tag tag) {
+        return tags.contains(tag);
     }
 
     public String getAuthor() {

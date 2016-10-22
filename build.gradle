@@ -29,8 +29,11 @@ repositories {
 dependencies {
     //spring
     compile 'org.springframework.boot:spring-boot-starter-freemarker'
-    compile('org.springframework.boot:spring-boot-devtools')
+    compile 'org.springframework.boot:spring-boot-devtools'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
+
+    //guava
+    compile 'com.google.guava:guava:19.0'
 
     //markdown
     compile 'com.atlassian.commonmark:commonmark:0.7.1'
@@ -42,6 +45,9 @@ dependencies {
 
     //rss
     compile 'com.rometools:rome:1.7.0'
+
+    //sitemap
+    compile 'cz.jiripinkas:jsitemapgenerator:2.2'
 
     // spock
     compile 'org.codehaus.groovy:groovy-all:2.4.1'

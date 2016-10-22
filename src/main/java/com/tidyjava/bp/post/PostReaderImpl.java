@@ -26,7 +26,8 @@ public class PostReaderImpl implements PostReader {
         return all.subList(0, Math.min(quantity, all.size()));
     }
 
-    List<Post> readAll() {
+    @Override
+    public List<Post> readAll() {
         File contentsDir = gitSupport.getWorkTree();
         return Stream.of(contentsDir
                 .listFiles(withSupportedExtension()))
@@ -55,10 +56,11 @@ public class PostReaderImpl implements PostReader {
         return gitSupport.getWorkTree().getPath() + "/" + name + PostFactory.EXTENSION;
     }
 
-    List<Post> readByTag(String tag) {
+    List<Post> readByTag(String tagName) {
+        Tag tag = new Tag(tagName);
         return readAll()
                 .stream()
-                .filter(post -> post.getTags().contains(tag))
+                .filter(post -> post.hasTag(tag))
                 .collect(Collectors.toList());
     }
 }

@@ -97,8 +97,14 @@ class PostControllerIntegrationSpec extends Specification {
         assert post.date.format(ISO_LOCAL_DATE) == "197$n-01-01"
         assert post.url == "/post$n"
         assert post.content == "<p><strong>Content $n</strong></p>\n"
-        assert post.tags == tags
+        assert post.tags == toTags(tags)
         assert post.author == "Author $n"
+    }
+
+    def toTags(tags) {
+        tags.collect {
+            new Tag(it)
+        }
     }
 
     void "assert post contains tilt data"(post) {

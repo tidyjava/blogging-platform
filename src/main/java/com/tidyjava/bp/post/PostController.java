@@ -26,7 +26,7 @@ public class PostController {
         return "home";
     }
 
-    @RequestMapping("/{path}")
+    @RequestMapping(Post.URL_PREFIX + "{path}")
     public String post(@PathVariable("path") String path, Model model) {
         Post post = postReader.readOne(path);
         model.addAttribute("title", post.getTitle());
@@ -34,7 +34,7 @@ public class PostController {
         return "post";
     }
 
-    @RequestMapping("/tag/{path}")
+    @RequestMapping(Tag.URL_PREFIX + "{path}")
     public String tag(@PathVariable("path") String path, Model model) {
         model.addAttribute("title", path);
         model.addAttribute("tag", path);

@@ -4,16 +4,15 @@ import com.rometools.rome.feed.rss.Content;
 import com.rometools.rome.feed.synd.*;
 import com.tidyjava.bp.post.Post;
 import com.tidyjava.bp.post.PostReader;
+import com.tidyjava.bp.post.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.time.ZoneOffset.UTC;
+import static com.tidyjava.bp.util.DateUtils.toDate;
 import static java.util.Arrays.asList;
 
 @Component
@@ -57,20 +56,16 @@ public class RssFeedGenerator {
         return entry;
     }
 
-    private List<SyndCategory> toCategories(List<String> tags) {
+    private List<SyndCategory> toCategories(List<Tag> tags) {
         return tags.stream()
                 .map(this::toCategory)
                 .collect(Collectors.toList());
     }
 
-    private SyndCategory toCategory(String tag) {
+    private SyndCategory toCategory(Tag tag) {
         SyndCategory category = new SyndCategoryImpl();
-        category.setName(tag);
+        category.setName(tag.getName());
         return category;
-    }
-
-    private Date toDate(LocalDate localDate) {
-        return Date.from(localDate.atStartOfDay().atOffset(UTC).toInstant());
     }
 
     private SyndContent toContent(String postContent) {
