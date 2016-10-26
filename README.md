@@ -5,6 +5,15 @@ about how it's designed and built, there's no better place than the
 [Blogging Platform series](http://tidyjava.com/tag/blogging-platform/). Project is Open Source
 and "Unlicensed", so anybody can contribute or create her/his own project based on this one.
 
+## Demo
+
+#### Default configuration:
+https://blogging-platform.herokuapp.com/
+(can load a while, because it's running on free dyno)
+
+#### Tidy Java configuration:
+http://tidyjava.com/
+
 ## Getting Started
 Here are a few simple steps to start using the platform:
 
