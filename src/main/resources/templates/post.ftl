@@ -10,8 +10,6 @@
         </#if>
         </div>
 
-        <p class="post-summary">${post.summary}</p>
-
         <p>${post.content}</p>
 
     <#include "disqus/disqus.ftl">

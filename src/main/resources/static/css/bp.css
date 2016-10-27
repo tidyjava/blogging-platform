@@ -25,6 +25,10 @@ pre {
     margin-bottom: 36px !important;
 }
 
+ul, ol {
+    margin-bottom: 36px;
+}
+
 .title-box {
     background-color: #333333;
     padding: 12px 12px 36px 12px;
