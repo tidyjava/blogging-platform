@@ -30,17 +30,17 @@ public class SitemapGenerator {
 
     String generate() {
         cz.jiripinkas.jsitemapgenerator.generator.SitemapGenerator sitemapGenerator = new cz.jiripinkas.jsitemapgenerator.generator.SitemapGenerator(blogUrl);
-        List<Post> posts = postReader.readAll();
-        sitemapGenerator.addPage(homePage(lastModification(posts)));
-        sitemapGenerator.addPages(postPages(posts));
-        sitemapGenerator.addPages(tagPages(posts));
+        List<Post> allPosts = postReader.readAll();
+        sitemapGenerator.addPage(homePage(allPosts));
+        sitemapGenerator.addPages(postPages(allPosts));
+        sitemapGenerator.addPages(tagPages(allPosts));
         return sitemapGenerator.constructSitemapString();
     }
 
-    private WebPage homePage(Date lastModification) {
+    private WebPage homePage(List<Post> posts) {
         return new WebPageBuilder()
                 .name("/")
-                .lastMod(lastModification)
+                .lastMod(lastModification(posts))
                 .changeFreqDaily()
                 .priorityMax()
                 .build();
