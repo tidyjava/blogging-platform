@@ -6,10 +6,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.Comparator;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.Comparator.comparing;
 
 @Service
 public class PostReaderImpl implements PostReader {
@@ -26,12 +29,14 @@ public class PostReaderImpl implements PostReader {
         return all.subList(0, Math.min(quantity, all.size()));
     }
 
-    List<Post> readAll() {
+    @Override
+    public List<Post> readAll() {
         File contentsDir = gitSupport.getWorkTree();
         return Stream.of(contentsDir
                 .listFiles(withSupportedExtension()))
                 .map(postFactory::create)
-                .sorted(byDate().reversed())
+                .filter(notFuturePosts())
+                .sorted(comparing(Post::getDate).reversed())
                 .collect(Collectors.toList());
     }
 
@@ -39,8 +44,8 @@ public class PostReaderImpl implements PostReader {
         return (dir, name) -> name.endsWith(PostFactory.EXTENSION);
     }
 
-    private Comparator<Post> byDate() {
-        return (p1, p2) -> p1.getDate().compareTo(p2.getDate());
+    private Predicate<Post> notFuturePosts() {
+        return post -> !post.getDate().isAfter(LocalDate.now());
     }
 
     Post readOne(String name) {
@@ -55,10 +60,11 @@ public class PostReaderImpl implements PostReader {
         return gitSupport.getWorkTree().getPath() + "/" + name + PostFactory.EXTENSION;
     }
 
-    List<Post> readByTag(String tag) {
+    List<Post> readByTag(String tagName) {
+        Tag tag = new Tag(tagName);
         return readAll()
                 .stream()
-                .filter(post -> post.getTags().contains(tag))
+                .filter(post -> post.hasTag(tag))
                 .collect(Collectors.toList());
     }
 }

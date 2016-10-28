@@ -6,7 +6,7 @@
         <h1 class="post-title post-page-title">${post.title}</h1>
         <div class="post-metadata">Posted by ${post.author} on ${post.date}
         <#if post.tags?size != 0>
-            | Tags: <#list post.tags as tag><a href="/tag/${tag}">${tag}</a> </#list>
+            | Tags: <#list post.tags as tag><a href="${tag.url}">${tag.name}</a> </#list>
         </#if>
         </div>
 

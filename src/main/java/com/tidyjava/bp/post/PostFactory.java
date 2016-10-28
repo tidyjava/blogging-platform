@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.tidyjava.bp.util.ExceptionUtils.rethrow;
 import static java.util.Arrays.asList;
@@ -40,7 +41,7 @@ class PostFactory {
         LocalDate date = toLocalDate(getOrDefault(metadata, "date", "1970-01-01"));
         String url = toUrl(file.getName());
         String content = toHtml(parsedResource);
-        List<String> tags = getOrDefault(metadata, "tags", emptyList());
+        List<Tag> tags = getTags(metadata);
         String author = getOrDefault(metadata, "author", "TILT");
         return new Post(id, title, summary, date, url, content, tags, author);
     }
@@ -81,12 +82,18 @@ class PostFactory {
         return toHtml(parsedSummary);
     }
 
+    private List<Tag> getTags(Map<String, List<String>> metadata) {
+        return getOrDefault(metadata, "tags", emptyList()).stream()
+                .map(Tag::new)
+                .collect(Collectors.toList());
+    }
+
     private LocalDate toLocalDate(String date) {
         return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
     }
 
     private String toUrl(String filename) {
-        return "/" + filename.replace(EXTENSION, "");
+        return Post.URL_PREFIX + filename.replace(EXTENSION, "");
     }
 
     private String toHtml(Node parsedResource) {
