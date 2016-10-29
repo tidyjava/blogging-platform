@@ -42,14 +42,14 @@ ul, ol {
 
 .title-box {
     background-color: #333333;
-    padding: 12px 12px 36px 12px;
+    padding: 12px 12px 24px 12px;
     margin-bottom: 12px;
     color: white;
 }
 
 @media (min-width: 768px) {
     .title-box {
-        padding: 24px 24px 48px 24px;
+        padding: 24px 24px 36px 24px;
         margin-bottom: 24px;
     }
 }
