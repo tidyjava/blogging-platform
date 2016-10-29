@@ -1,9 +1,10 @@
 <#include "head.ftl">
 
 <div class="row">
-    <div class="title-box">
+    <div class="title-box text-center">
     <#include "social/social-links.ftl">
-        <h1 class="text-center">${title}</h1>
+        <h1>${title}</h1>
+        <p>${subtitle!""}</p>
     </div>
 </div>
 

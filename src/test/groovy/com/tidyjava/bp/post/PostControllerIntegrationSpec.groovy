@@ -37,6 +37,8 @@ class PostControllerIntegrationSpec extends Specification {
                 .andReturn()
 
         result.modelAndView.model.title == 'Test Blog'
+        result.modelAndView.model.subtitle == 'What we test, we believe.'
+
         def posts = result.modelAndView.model.posts
         "assert post contains test data"(posts[0], 2, ['tagged'])
         "assert post contains test data"(posts[1], 1, ['tagged', 'first'])

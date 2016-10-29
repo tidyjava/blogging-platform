@@ -1,5 +1,6 @@
 blog:
-  name: Put Your Blog Name Here
+  name: Tidy Blog
+  description: What we think, we become.
   url: http://localhost:8080
 
 git:

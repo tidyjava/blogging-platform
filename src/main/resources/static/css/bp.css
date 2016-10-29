@@ -1,10 +1,10 @@
 body {
-    font-family: 'PT Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 18px;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'PT Serif', serif;
+    font-family: 'Merriweather', serif;
     font-weight: bold;
 }
 
@@ -72,9 +72,21 @@ ul, ol {
     font-size: 48px;
 }
 
+.title-box p {
+    margin-top: 18px;
+    margin-bottom: 0;
+    font-size: 18px;
+}
+
 @media (min-width: 768px) {
     .title-box h1 {
         font-size: 64px;
+    }
+
+    .title-box p {
+        margin-top: 24px;
+        margin-bottom: 0;
+        font-size: 24px;
     }
 }
 
