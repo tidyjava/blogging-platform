@@ -49,7 +49,7 @@ ul, ol {
 
 @media (min-width: 768px) {
     .title-box {
-        padding: 24px 24px 36px 24px;
+        padding: 24px 24px 48px 24px;
         margin-bottom: 24px;
     }
 }
