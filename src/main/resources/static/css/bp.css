@@ -29,6 +29,16 @@ ul, ol {
     margin-bottom: 36px;
 }
 
+@media (min-width: 992px) {
+    .col-md-6 {
+        width: 40%;
+    }
+
+    .col-md-offset-3 {
+        margin-left: 30%;
+    }
+}
+
 .title-box {
     background-color: #333333;
     padding: 12px 12px 36px 12px;
