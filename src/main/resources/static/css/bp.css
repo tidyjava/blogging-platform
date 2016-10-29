@@ -18,6 +18,7 @@ a :hover {
 }
 
 p {
+    line-height: 27px;
     margin-bottom: 36px;
 }
 
@@ -80,7 +81,7 @@ ul, ol {
 
 @media (min-width: 768px) {
     .title-box h1 {
-        font-size: 64px;
+        font-size: 72px;
     }
 
     .title-box p {
