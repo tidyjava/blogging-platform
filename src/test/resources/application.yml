@@ -1,5 +1,6 @@
 blog:
   name: Test Blog
+  description: What we test, we believe.
   url: http://localhost:8080
 
 git:

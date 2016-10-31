@@ -16,12 +16,16 @@ public class PostController {
     @Value("${blog.name}")
     private String blogName;
 
+    @Value("${blog.description}")
+    private String blogDescription;
+
     @Autowired
     private PostReaderImpl postReader;
 
     @RequestMapping("/")
     public String home(Model model) {
         model.addAttribute("title", blogName);
+        model.addAttribute("subtitle", blogDescription);
         model.addAttribute("posts", postReader.readAll());
         return "home";
     }
